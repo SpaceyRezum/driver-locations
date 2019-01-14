@@ -1,12 +1,8 @@
 var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 
 var DriverSchema = new mongoose.Schema({
-    activeLegID: {
-        type: String,
-        minlength: 2,
-        maxlength: 2,
-        required: true
-    },
+    activeLegID: { type: Schema.ObjectId, ref: 'Leg' },
     legProgress: {
         type: Number,
         min: 0,

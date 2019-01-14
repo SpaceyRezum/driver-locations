@@ -1,0 +1,24 @@
+mongo
+
+use driver_location_db
+
+var stops = JSON.parse(cat("./data/stops.json"))
+db.stops.insert(stops)
+
+var legs = JSON.parse(cat("./data/legs.json"))
+var legsWithRelations = legs.map(function(leg) { 
+    return { 
+        "startStop": db.stops.findOne({"name": leg.startStop})._id, 
+        "endStop": db.stops.findOne({"name": leg.endStop})._id, 
+        "speedLimit": leg.speedLimit, 
+        "legID": leg.legID 
+    }
+});
+db.legs.insert(legsWithRelations);
+
+var driver = JSON.parse(cat("./data/driver.json"))
+var driverWithRelations = {
+    activeLegID: db.legs.findOne({legID: driver.activeLegID})._id,
+    legProgress: driver.legProgress
+}
+db.drivers.insert(driverWithRelations)

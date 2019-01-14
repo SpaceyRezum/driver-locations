@@ -1,0 +1,14 @@
+.app {
+    background-color: #282c34;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    font-size: calc(10px + 2vmin);
+    color: white;
+}
+
+.canvasContainer {
+    min-height: 100vh;
+    width: 50%;
+}

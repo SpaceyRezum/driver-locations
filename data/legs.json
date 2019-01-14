@@ -9,7 +9,8 @@
         "startStop": "B",
         "endStop": "C",
         "speedLimit": 60,
-        "legID": "BC"},
+        "legID": "BC"
+    },
     {
         "startStop": "C",
         "endStop": "D",
