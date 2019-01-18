@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import styles from './App.module.css';
-import Canvas from './Canvas/Canvas';
 import axios from 'axios';
+import io from 'socket.io-client';
+import Form from './Form/Form';
+import Canvas from './Canvas/Canvas';
 
 class App extends Component {
   constructor(props) {
@@ -9,9 +11,16 @@ class App extends Component {
     this.state = {
       stops: [],
       legs: [],
-      driver: [],
-      loading: true
+      driver: {},
     }
+    
+    const socket = io.connect('http://localhost:3000');
+    socket.on('new driver location', function (data) {
+      this.setState({driver: data});
+    }.bind(this));
+
+    this.handleFormChange = this.handleFormChange.bind(this);
+    this.saveDriverLocationToDb = this.saveDriverLocationToDb.bind(this);
   }
 
   componentDidMount() {
@@ -29,14 +38,38 @@ class App extends Component {
   }
 
   render() {
-    const {stops, legs, driver} = this.state;
+    const { stops, legs, driver } = this.state;
     return (
       <div className={styles.app}>
-        <div className={styles.canvasContainer}>
-          <Canvas stops={stops} legs={legs} driver={driver} />
-        </div>
+        {stops && legs && driver ?
+          <>
+            <div className={styles.formContainer}>
+              <Form driver={driver} availableLegs={legs} changeHandler={this.handleFormChange} saveHandler={this.saveDriverLocationToDb} />
+            </div>
+            <div className={styles.canvasContainer}>
+              <Canvas stops={stops} legs={legs} driver={driver} />
+            </div>
+          </> : null}
       </div>
     );
+  }
+
+  handleFormChange(event, value) {
+    const newDriver = { ...this.state.driver };
+    if (event.target.name === "activeLegID") {
+      const newActiveLeg = this.state.legs.find((leg) => {
+        return leg.legID === event.target.value;
+      })
+      newDriver.activeLegID = { ...newActiveLeg };
+    } else if (value) {
+      newDriver.legProgress = value;
+    }
+    this.setState({ driver: newDriver });
+  }
+
+  saveDriverLocationToDb() {
+    axios.put('/driver', { "activeLegID": this.state.driver.activeLegID.legID, "legProgress": this.state.driver.legProgress })
+    .then((response, err) => { if (err) return alert(err); else return alert(response.data) });
   }
 }
 

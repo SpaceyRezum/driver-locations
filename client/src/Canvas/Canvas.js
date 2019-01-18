@@ -1,38 +1,26 @@
-import React, { Component, Fragment } from 'react';
-import { Stage, Layer, Image, Circle, Text, Line } from 'react-konva';
+import React, { Component } from 'react';
+import { Stage, Layer, Image } from 'react-konva';
+import Leg from '../Leg/Leg';
+import Stop from '../Stop/Stop';
+import Driver from '../Driver/Driver';
 import mapPath from './map.jpg';
+import {checkForCompletion} from '../helpers';
 
 class Canvas extends Component {
     constructor(props) {
         super(props);
         this.state = {
             backgroundMap: null,
-            scaleMultiplier: 6
+            scaleMultiplier: 4, // add a scaleMultiplier for visual clarity
         }
     }
 
-    renderDriverAndHighlightLeg(driver) {
-        const driverLocation = {
-            x: ((driver.activeLegID.startStop.x + (driver.activeLegID.endStop.x - driver.activeLegID.startStop.x) * driver.legProgress / 100) * this.state.scaleMultiplier),
-            y: ((driver.activeLegID.startStop.y + (driver.activeLegID.endStop.y - driver.activeLegID.startStop.y) * driver.legProgress / 100) * this.state.scaleMultiplier)
-        }
-        const highlightedLeg = {
-            points: [driver.activeLegID.startStop.x * this.state.scaleMultiplier, driver.activeLegID.startStop.y * this.state.scaleMultiplier, driverLocation.x, driverLocation.y]
-        }
-
-        return (
-            <Fragment>
-                <Circle x={driverLocation.x} y={driverLocation.y} radius={8} fill="red"/>
-                <Line points={highlightedLeg.points} closed stroke="red"/>
-            </Fragment>
-        );
-    }
     componentDidMount() {
         const backgroundMap = new window.Image();
         backgroundMap.src = mapPath;
         backgroundMap.onload = () => {
             this.setState({
-                backgroundMap: backgroundMap
+                backgroundMap: backgroundMap,
             });
         };
     }
@@ -40,38 +28,24 @@ class Canvas extends Component {
     render() {
         const { backgroundMap, scaleMultiplier } = this.state;
         const { stops, legs, driver } = this.props;
+        const driverX = driver && driver.activeLegID ? driver.activeLegID.startStop.x + (driver.activeLegID.endStop.x - driver.activeLegID.startStop.x) * driver.legProgress / 100 : 0;
+        const driverY = driver && driver.activeLegID ? driver.activeLegID.startStop.y + (driver.activeLegID.endStop.y - driver.activeLegID.startStop.y) * driver.legProgress / 100 : 0;
         return (
-            <Stage width={800} height={800} ref={this.stateRef}>
+            <Stage width={800} height={800}>
                 <Layer>
                     <Image image={backgroundMap} />
                 </Layer>
                 <Layer>
-                    {stops ? stops.map((stop, index) => {
-                        return (
-                            <Fragment key={stop._id}>
-                                <Circle x={stop.x * scaleMultiplier} y={stop.y * scaleMultiplier} radius={10} fill="green" />
-                                <Text x={stop.x * scaleMultiplier - 4.5} y={stop.y * scaleMultiplier - 4.5} text={stop.name} />
-                            </Fragment>
-                        );
-                    }) : null}
-
-                    {legs ? legs.map((leg) => {
-                        return (
-                            <Line key={leg._id}
-                                points={
-                                    [leg.startStop.x * scaleMultiplier,
-                                    leg.startStop.y * scaleMultiplier,
-                                    leg.endStop.x * scaleMultiplier,
-                                    leg.endStop.y * scaleMultiplier]
-                                }
-                                closed
-                                stroke="black" />
-                        );
-                    }) : null}
+                    {legs ? legs.map((leg) => <Leg key={leg._id} startStop={leg.startStop} endStop={leg.endStop} completed={checkForCompletion(leg, driver)} scaleMultiplier={scaleMultiplier} />
+                    ) : null}
 
                     {driver && driver.activeLegID ?
-                        this.renderDriverAndHighlightLeg(driver)
-                        : null}
+                        <Leg key={driver._id} startStop={driver.activeLegID.startStop} endStop={{ x: driverX, y: driverY }} completed={true} scaleMultiplier={scaleMultiplier} /> : null}
+                </Layer>
+                <Layer>
+                    {stops ? stops.map((stop) => <Stop key={stop._id} x={stop.x} y={stop.y} name={stop.name} scaleMultiplier={scaleMultiplier} />) : null}
+
+                    {driver && driver.activeLegID ? <Driver driverX={driverX} driverY={driverY} scaleMultiplier={scaleMultiplier} /> : null}
                 </Layer>
             </Stage>
         );

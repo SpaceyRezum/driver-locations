@@ -1,5 +1,6 @@
-var express = require('express');
-var app = express();
+var app = require('express')();
+var server = require('http').Server(app);
+var io = require('socket.io')(server);
 var port = process.env.PORT || 8090;
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
@@ -13,8 +14,16 @@ mongoose.connect('mongodb://localhost/driver_location_db');
 // API routes
 app.use('/legs', require('./api/legs'));
 app.use('/stops', require('./api/stops'));
-app.use('/driver', require('./api/driver'));
+app.use('/driver', require('./api/driver')(io));
 // Fallback in case no other no appropriate route is found
-app.get('*', (req, res) => res.send("Hi there, this route is a fallback."));
+app.get('*', (req, res) => res.sendFile(__dirname + '/client/public/index.html'));
 
-app.listen(port, () => console.log(`Listening on port ${port}`));
+server.listen(port, () => console.log(`Listening on port ${port}`));
+
+io.on('connection', function (socket) {
+    console.log('connection established.');
+    socket.on('new driver location', function (data) { console.log(data) });
+    socket.on('disconnect', function () {
+        console.log('connection closed.');
+    });
+});

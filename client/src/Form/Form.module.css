@@ -1,0 +1,33 @@
+.form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.formElement {
+    margin: 1rem 2rem !important;
+}
+
+.formElementLabel {
+    margin-top: 1rem;
+    color: #282c34;
+    margin-bottom: 1rem;
+    font-weight: 300;
+    font-size: .95rem;
+}
+
+.formTitle {
+    margin: 2rem 2rem 0;
+    color: #282c34;
+    font-weight: 300;
+}
+
+.formSlider {
+    margin-bottom: .5rem;
+}
+
+.dataContainer {
+    color: #282c34;
+    font-weight: 300;
+    font-size: .95rem;
+}

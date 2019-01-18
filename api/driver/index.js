@@ -2,7 +2,9 @@ var express = require('express');
 var router = new express.Router();
 var controller = require('./controller');
 
-router.get('/', controller.retrievePosition);
-router.put('/', controller.updatePosition);
+module.exports = function(io) {
+    router.get('/', controller.retrievePosition);
+    router.put('/', function(req, res) { return controller.updatePosition(req, res, io)});
 
-module.exports = router;
+    return router;
+}

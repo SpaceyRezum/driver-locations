@@ -17,7 +17,7 @@ exports.retrievePosition = function (req, res) {
         });
 }
 
-exports.updatePosition = function (req, res) {
+exports.updatePosition = function (req, res, io) {
     var newLeg = req.body.activeLegID;
     var newLegProgress = req.body.legProgress;
 
@@ -42,6 +42,18 @@ exports.updatePosition = function (req, res) {
         else {
             Driver.updateOne({ activeLegID: leg._id, legProgress: newLegProgress }).exec(function (err, response) {
                 if (err) return res.status(500).send(err);
+                Driver.findOne()
+                    .populate({
+                        path: 'activeLegID',
+                        populate: [{
+                            path: 'startStop'
+                        }, {
+                            path: 'endStop',
+                        }]
+                    })
+                    .exec(function (err, driver) {
+                        return io.sockets.emit('new driver location', driver);
+                    });
                 return res.send("Driver's location updated successfully.");
             });
         }
