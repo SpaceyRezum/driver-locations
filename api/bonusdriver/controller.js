@@ -5,9 +5,13 @@ exports.retrievePosition = function (req, res) {
     BonusDriver.findOne()
         .exec(function (err, driver) {
             if (err) return res.status(400).send(err);
-            if (!driver)
-                return res.status(404).send("No bonus driver could be found");
-            return res.send(driver);
+            if (!driver) {
+                driver = new BonusDriver({ x: 0, y: 0 }).save(function (error) {
+                    if (error) return res.status(500).send(error);
+                    return res.send(driver);
+                })
+            } else 
+                return res.send(driver);
         });
 }
 

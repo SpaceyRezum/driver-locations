@@ -52,7 +52,7 @@ class App extends Component {
         stops: stopsRes.data,
         legs: legsRes.data,
         driver: driverRes.data,
-        bonusDriver: bonusDriverRes.data
+        bonusDriver: bonusDriverRes.data ? bonusDriverRes.data : this.state.bonusDriver  
       });
     }));
   }
