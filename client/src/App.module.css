@@ -16,12 +16,11 @@
     margin-left: 1rem;
 }
 
-.formContainer {
+.formsContainer {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
     width: auto;
-    padding: 1rem;
     margin: 1rem 1rem 0 0;
-    background: #f8f8ff;
 }

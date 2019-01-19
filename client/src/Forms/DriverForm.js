@@ -2,20 +2,22 @@ import React, { PureComponent } from 'react';
 import styles from './Form.module.css';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
 import Input from '@material-ui/core/Input';
+import MenuItem from '@material-ui/core/MenuItem';
 import Slider from '@material-ui/lab/Slider';
+import Checkbox from '@material-ui/core/Checkbox';
 import Button from '@material-ui/core/Button';
 import { calculateTimeLeft, formatTime } from '../helpers';
 
-class Form extends PureComponent {
+class DriverForm extends PureComponent {
     render() {
-        const { driver, availableLegs, changeHandler, saveHandler } = this.props;
+        const { driver, availableLegs, display, toggleDisplay, changeHandler, saveHandler } = this.props;
         return (
             <form className={styles.form}>
-                <h2 className={styles.formTitle}>Details of our main guy!</h2>
+                <h2 className={styles.formTitle}>Coordinates of our main guy</h2>
                 <FormControl className={styles.formElement}>
                     <InputLabel htmlFor="active-leg">Active Leg</InputLabel>
                     <Select
@@ -50,6 +52,19 @@ class Form extends PureComponent {
                     {driver.activeLegID && availableLegs ? formatTime(calculateTimeLeft(driver, availableLegs)) : ""}
                 </div>
 
+                <FormControlLabel
+                    className={styles.formCheckbox}
+                    control={
+                        <Checkbox
+                            checked={display}
+                            onChange={toggleDisplay}
+                            name="main"
+                            classes={{ root: styles.colorRed, checked: styles.colorRed}}
+                        />
+                    }
+                    label="Display Main Driver"
+                />
+
                 <Button className={styles.formElement} variant="contained" onClick={saveHandler}>Save</Button>
 
             </form>
@@ -57,4 +72,4 @@ class Form extends PureComponent {
     }
 }
 
-export default Form;
+export default DriverForm;

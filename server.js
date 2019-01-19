@@ -15,6 +15,8 @@ mongoose.connect('mongodb://localhost/driver_location_db');
 app.use('/legs', require('./api/legs'));
 app.use('/stops', require('./api/stops'));
 app.use('/driver', require('./api/driver')(io));
+app.use('/bonusdriver', require('./api/bonusdriver')(io));
+
 // Fallback in case no other no appropriate route is found
 app.get('*', (req, res) => res.sendFile(__dirname + '/client/public/index.html'));
 
@@ -22,7 +24,8 @@ server.listen(port, () => console.log(`Listening on port ${port}`));
 
 io.on('connection', function (socket) {
     console.log('connection established.');
-    socket.on('new driver location', function (data) { console.log(data) });
+    socket.on('new driver location', function (data) { console.log('new driver location:', data) });
+    socket.on('new bonus driver location', function (data) { console.log('new bonus driver location:', data) });
     socket.on('disconnect', function () {
         console.log('connection closed.');
     });

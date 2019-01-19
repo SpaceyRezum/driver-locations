@@ -4,7 +4,7 @@ import { Line } from 'react-konva';
 
 class Leg extends PureComponent {
     render() {
-        const { startStop, endStop, completed, scaleMultiplier } = this.props;
+        const { startStop, endStop, completed, scaleMultiplier, color } = this.props;
         return <Line points={
                 [startStop.x * scaleMultiplier,
                 startStop.y * scaleMultiplier,
@@ -12,7 +12,7 @@ class Leg extends PureComponent {
                 endStop.y * scaleMultiplier]
             }
             closed
-            stroke={completed ? "red" : "black"} />
+            stroke={color ? color : (completed ? "red" : "black")} />
     }
 }
 
@@ -20,7 +20,8 @@ Leg.propTypes = {
     startStop: PropTypes.object,
     endStop: PropTypes.object,
     completed: PropTypes.bool,
-    scaleMultiplier: PropTypes.number
+    scaleMultiplier: PropTypes.number,
+    color: PropTypes.string
 }
 
 export default Leg;
