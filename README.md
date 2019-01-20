@@ -21,7 +21,7 @@ Provided a grid (200x200), a set of stops (with x & y coordinates), a main drive
   - Install [MongoDB Community Edition](https://docs.mongodb.com/manual/administration/install-community/) and follow the steps to launch the mongo shell
   - Once the shell started in terminal by typing `mongo` once `mongod` is running or using any Mongo DB management solution), proceed to create the database and seeding the initial data
   - Create the `driver_location_db` locally by typing `use driver_location_db` in the mongo shell
-  - Open a terminal window and navigate to the folder where the solution is stored and paste the steps from [database-seed.txt](../database-seed.txt).
+  - Open a terminal window and navigate to the folder where the solution is stored and paste the steps from [database-seed.txt](./database-seed.txt).
 
 3. Install solution dependencies
   - Open terminal at root of solution folder and run `npm install`
