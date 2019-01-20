@@ -2,7 +2,7 @@
 The usage of the application is pretty straightforward as the interface constitutes of four parts:
 1. The map on the right hand side for grid visualization.
 2. The map's legend under the map itself which describes the color schemes used.
-3. The main driver's form (top left hand side) that allows users to modify the driver's position on the global route (the save button allows the data to be stored in the database) and to toggle the main driver's information display on the map.
+3. The main driver's form (top left hand side) that allows users to modify the driver's position on the global route (the save button allows the data to be stored in the database) and to toggle the main driver's information display on the map. Users can also find information under the form such as how much time is left for the driver in order to complete all the remaining legs.
 4. The bonus driver's form (bottom left hand side) that allows users to modify the bonus driver's absolute position on the map (same thing, the save button allows the data to be stored in the database) and to toggle the bonus driver's information display on the map.
 
 #### API Structure and available operations
