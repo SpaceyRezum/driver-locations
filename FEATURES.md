@@ -8,12 +8,12 @@ The usage of the application is pretty straightforward as the interface constitu
 #### API Structure and available operations
 The API is composed of 4 parts with various operation each:
 1. /driver
--- GET '/driver' retrieves the main driver's location
--- PUT '/driver' requiring the two following parameters to update the driver's location: `{ activeLegID: 2 letter string representing a leg between two existing stops, legProgress: number between 0 to 100}`. Modifications should reflect in real-time on the app thanks to the use of socket.io.
+  - GET '/driver' retrieves the main driver's location
+  - PUT '/driver' requiring the two following parameters to update the driver's location: ```{ activeLegID: 2 letter string representing a leg between two existing stops, legProgress: number between 0 to 100}```. Modifications should reflect in real-time on the app thanks to the use of socket.io.
 2. /stops
--- GET '/stops' retrieves all stops of the path
+  - GET '/stops' retrieves all stops of the path
 3. /legs
--- GET '/legs' retrieves all legs constituting the path
+  - GET '/legs' retrieves all legs constituting the path
 4. /bonusdriver
--- GET '/bonusdriver' retrieves the bonus driver's location
--- PUT '/bonusdriver' requiring the two following parameters to update the bonus driver's location: `{ x: number between 0 to 200, y: number between 0 to 200}`. Modifications should reflect in real-time on the app thanks to the use of socket.io.
+  - GET '/bonusdriver' retrieves the bonus driver's location
+  - PUT '/bonusdriver' requiring the two following parameters to update the bonus driver's location: ```{ x: number between 0 to 200, y: number between 0 to 200}```. Modifications should reflect in real-time on the app thanks to the use of socket.io.
