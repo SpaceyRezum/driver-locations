@@ -1,7 +1,3 @@
-mongo
-
-use driver_location_db
-
 var stops = JSON.parse(cat("./data/stops.json"))
 db.stops.insert(stops)
 
