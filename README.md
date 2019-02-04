@@ -18,10 +18,11 @@ Provided a grid (200x200), a set of stops (with x & y coordinates), a main drive
 #### How to run the app
 1. Download the solution locally from Github
 2. Set up the database locally
-  - Install [MongoDB Community Edition](https://docs.mongodb.com/manual/administration/install-community/) and follow the steps to launch the mongo shell
-  - Once the shell started in terminal by typing `mongo` once `mongod` is running or using any Mongo DB management solution), proceed to create the database and seeding the initial data
-  - Create the `driver_location_db` locally by typing `use driver_location_db` in the mongo shell
-  - Open a terminal window and navigate to the folder where the solution is stored and paste the steps from [database-seed.txt](./database-seed.txt).
+  - Install [MongoDB Community Edition](https://docs.mongodb.com/manual/administration/install-community/)
+  - Open a terminal window and type `mongod` to start MongoDB on localhost
+  - Open a second terminal windown and navigate to the root of the folder downloaded in step 1 and type `mongo` to open the mongo shell
+  - Create the `driver_location_db` locally by typing `use driver_location_db`
+  - Still from the root of the foder donwloaded in step 1 paste the steps from [database-seed.txt](./database-seed.txt) in the mongo shell.
 
 3. Install solution dependencies
   - Open terminal at root of solution folder and run `npm install`
