@@ -25,7 +25,7 @@ Provided a grid (200x200), a set of stops (with x & y coordinates), a main drive
   - Still from the root of the foder donwloaded in step 1 paste the steps from [database-seed.txt](./database-seed.txt) in the mongo shell.
 
 3. Install solution dependencies
-  - Open terminal at root of solution folder and run `npm install`
+  - Exit the mongo shell, and, still at root of solution folder and run `npm install`
   - Then `cd client`, `npm install`
 
 4. Run the solution
